@@ -538,33 +538,6 @@ bun test
 bun test --watch
 ```
 
-### Publishing
-
-This package uses [np](https://github.com/sindresorhus/np) for safe, interactive publishing:
-
-```bash
-# Publish a new version (interactive)
-bun run release
-
-# Preview what will be published without actually publishing
-npx np --preview
-
-# Publish a specific version type
-npx np patch   # 1.0.0 → 1.0.1
-npx np minor   # 1.0.0 → 1.1.0
-npx np major   # 1.0.0 → 2.0.0
-```
-
-The `np` tool will:
-
-- ✅ Run tests automatically
-- ✅ Build the project (`prepublishOnly` script)
-- ✅ Bump version in package.json
-- ✅ Create git tag
-- ✅ Push to GitHub
-- ✅ Publish to npm
-- ✅ Create GitHub release
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
