@@ -1,13 +1,41 @@
 {
   "name": "bookamat-api-client",
+  "version": "0.0.0",
+  "description": "A comprehensive TypeScript client for the Bookamat API, providing type-safe access to all Bookamat accounting features",
+  "keywords": [
+    "bookamat",
+    "api",
+    "client",
+    "typescript",
+    "accounting",
+    "bookkeeping",
+    "austria",
+    "tax"
+  ],
+  "homepage": "https://github.com/maxschulmeister/bookamat-api-client#readme",
+  "bugs": {
+    "url": "https://github.com/maxschulmeister/bookamat-api-client/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxschulmeister/bookamat-api-client.git"
+  },
+  "license": "MIT",
+  "author": "Max Schulmeister <mail@maxschulmeister.com>",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "type": "module",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "bun run src/index.ts --watch",
     "build": "bun build src/index.ts --outdir dist && tsc --emitDeclarationOnly",
     "test": "bun test",
+    "prepublishOnly": "bun run build",
     "release": "np"
   },
   "devDependencies": {
@@ -17,6 +45,9 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "publishConfig": {
     "access": "public"
