@@ -14,6 +14,18 @@ function makeFetchMock(response: any) {
   return fn as unknown as typeof fetch;
 }
 
+function makeFetchMockSequence(responses: any[]) {
+  let call = 0;
+  const fn = async () => {
+    if (call < responses.length) {
+      return responses[call++];
+    }
+    throw new Error("fetch called too many times");
+  };
+  (fn as any).preconnect = () => Promise.resolve();
+  return fn as unknown as typeof fetch;
+}
+
 describe("endpoints/bookings", () => {
   let originalFetch: typeof globalThis.fetch;
   let client: BookamatClient;
@@ -28,14 +40,78 @@ describe("endpoints/bookings", () => {
   });
 
   test("listBookings returns paginated bookings", async () => {
-    globalThis.fetch = makeFetchMock({
+    const bookingsPage = {
       ok: true,
       status: 200,
       headers: { get: () => "100" },
       json: async () => ({ results: [{ id: 1 }], next: null }),
-    });
+    };
+    const emptyPage = {
+      ok: false,
+      status: 404,
+      text: async () => "not found",
+      headers: { get: () => "0" },
+    };
+    globalThis.fetch = makeFetchMockSequence([bookingsPage, emptyPage]);
     const result = await bookings.listBookings.call(client, {});
-    expect(result.results[0].id).toBe(1);
+    expect(result[0].id).toBe(1);
+  });
+
+  test("listOpenBookings returns paginated open bookings", async () => {
+    const openBookingsPage = {
+      ok: true,
+      status: 200,
+      headers: { get: () => "100" },
+      json: async () => ({ results: [{ id: 2, status: "2" }], next: null }),
+    };
+    const emptyPage = {
+      ok: false,
+      status: 404,
+      text: async () => "not found",
+      headers: { get: () => "0" },
+    };
+    globalThis.fetch = makeFetchMockSequence([openBookingsPage, emptyPage]);
+    const result = await bookings.listOpenBookings.call(client, {});
+    expect(result[0].id).toBe(2);
+    expect(result[0].status).toBe("2");
+  });
+
+  test("listDeletedBookings returns paginated deleted bookings", async () => {
+    const deletedBookingsPage = {
+      ok: true,
+      status: 200,
+      headers: { get: () => "100" },
+      json: async () => ({ results: [{ id: 3, status: "3" }], next: null }),
+    };
+    const emptyPage = {
+      ok: false,
+      status: 404,
+      text: async () => "not found",
+      headers: { get: () => "0" },
+    };
+    globalThis.fetch = makeFetchMockSequence([deletedBookingsPage, emptyPage]);
+    const result = await bookings.listDeletedBookings.call(client, {});
+    expect(result[0].id).toBe(3);
+    expect(result[0].status).toBe("3");
+  });
+
+  test("listImportedBookings returns paginated imported bookings", async () => {
+    const importedBookingsPage = {
+      ok: true,
+      status: 200,
+      headers: { get: () => "100" },
+      json: async () => ({ results: [{ id: 4, status: "4" }], next: null }),
+    };
+    const emptyPage = {
+      ok: false,
+      status: 404,
+      text: async () => "not found",
+      headers: { get: () => "0" },
+    };
+    globalThis.fetch = makeFetchMockSequence([importedBookingsPage, emptyPage]);
+    const result = await bookings.listImportedBookings.call(client, {});
+    expect(result[0].id).toBe(4);
+    expect(result[0].status).toBe("4");
   });
 
   test("getBookingDetails returns booking", async () => {
@@ -103,6 +179,18 @@ describe("endpoints/bookings", () => {
     expect(result).toBeUndefined();
   });
 
+  test("restoreBooking posts and returns restored booking", async () => {
+    globalThis.fetch = makeFetchMock({
+      ok: true,
+      status: 200,
+      headers: { get: () => "100" },
+      json: async () => ({ id: 6, status: "1" }),
+    });
+    const result = await bookings.restoreBooking.call(client, 6);
+    expect(result.id).toBe(6);
+    expect(result.status).toBe("1");
+  });
+
   test("addBookingAttachment posts and returns attachment", async () => {
     globalThis.fetch = makeFetchMock({
       ok: true,
@@ -118,16 +206,23 @@ describe("endpoints/bookings", () => {
   });
 
   test("listBookingAttachments returns attachments", async () => {
-    globalThis.fetch = makeFetchMock({
+    const attachmentsPage = {
       ok: true,
       status: 200,
       headers: { get: () => "100" },
       json: async () => ({ results: [{ id: 8 }], next: null }),
-    });
+    };
+    const emptyPage = {
+      ok: false,
+      status: 404,
+      text: async () => "not found",
+      headers: { get: () => "0" },
+    };
+    globalThis.fetch = makeFetchMockSequence([attachmentsPage, emptyPage]);
     const result = await bookings.listBookingAttachments.call(client, {
       booking: 1,
     });
-    expect(result.results[0].id).toBe(8);
+    expect(result[0].id).toBe(8);
   });
 
   test("getBookingAttachmentDetails returns attachment", async () => {
@@ -204,14 +299,21 @@ describe("endpoints/bookings", () => {
   });
 
   test("getBookingTags returns tags", async () => {
-    globalThis.fetch = makeFetchMock({
+    const tagsPage = {
       ok: true,
       status: 200,
       headers: { get: () => "100" },
       json: async () => ({ results: [{ id: 15 }], next: null }),
-    });
+    };
+    const emptyPage = {
+      ok: false,
+      status: 404,
+      text: async () => "not found",
+      headers: { get: () => "0" },
+    };
+    globalThis.fetch = makeFetchMockSequence([tagsPage, emptyPage]);
     const result = await bookings.getBookingTags.call(client, 1, {});
-    expect(result.results[0].id).toBe(15);
+    expect(result[0].id).toBe(15);
   });
 
   test("addTagToBooking posts and returns tag", async () => {

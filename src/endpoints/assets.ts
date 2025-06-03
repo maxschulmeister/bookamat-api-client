@@ -9,27 +9,24 @@ import type {
   AssetCreate,
   AssetUpdate,
   PaginatedRequestParams,
-  PaginatedResponse,
 } from "../types";
-import { sanitizePayload } from "../utils"; // fetchAllPages might not be used here if assets don't have an equivalent getAll
+import { fetchAllPages, sanitizePayload } from "../utils";
 
 // --- Asset (Anlagen) Endpoints ---
 export async function getAssets(
   this: BookamatClient,
-  params?: PaginatedRequestParams
-): Promise<PaginatedResponse<Asset>> {
+  params: PaginatedRequestParams = {}
+): Promise<Asset[]> {
   const url = new URL(`${this.apiRoot}/assets/`);
-  if (params) {
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined) {
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      if (key !== "page") {
+        // fetchAllPages handles pagination internally
         url.searchParams.append(key, String(value));
       }
-    });
-  }
-  return this.request<PaginatedResponse<Asset>>(url.toString(), {
-    method: "GET",
-    headers: this.requestHeaders,
+    }
   });
+  return fetchAllPages<Asset>(url.toString(), this.requestHeaders);
 }
 
 export async function createAsset(
@@ -99,17 +96,17 @@ export async function deleteAsset(
 export async function listAssetAttachments(
   this: BookamatClient,
   params: AssetAttachmentsListParams
-): Promise<PaginatedResponse<AssetAttachment>> {
+): Promise<AssetAttachment[]> {
   const url = new URL(`${this.apiRoot}/assets/attachments/`);
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined) {
-      url.searchParams.append(key, String(value));
+    if (value !== undefined && value !== null) {
+      if (key !== "page") {
+        // fetchAllPages handles pagination internally
+        url.searchParams.append(key, String(value));
+      }
     }
   });
-  return this.request<PaginatedResponse<AssetAttachment>>(url.toString(), {
-    method: "GET",
-    headers: this.requestHeaders,
-  });
+  return fetchAllPages<AssetAttachment>(url.toString(), this.requestHeaders);
 }
 
 export async function addAssetAttachment(

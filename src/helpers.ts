@@ -49,15 +49,15 @@ export async function getAllBookings(
 export async function getAllAccounts(
   this: BookamatClient
 ): Promise<AllAccountsResponse> {
-  const [costaccount, bankaccount, purchasetaxaccount] = await Promise.all([
+  const [costaccounts, bankaccounts, purchasetaxaccounts] = await Promise.all([
     this.getCostAccounts(),
     this.getBankAccounts(),
     this.getPurchaseTaxAccounts(),
   ]);
 
   return {
-    costaccounts: costaccount.results,
-    bankaccounts: bankaccount.results,
-    purchasetaxaccounts: purchasetaxaccount.results,
+    costaccounts,
+    bankaccounts,
+    purchasetaxaccounts,
   };
 }

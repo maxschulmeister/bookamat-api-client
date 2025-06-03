@@ -14,6 +14,18 @@ function makeFetchMock(response: any) {
   return fn as unknown as typeof fetch;
 }
 
+function makeFetchMockSequence(responses: any[]) {
+  let call = 0;
+  const fn = async () => {
+    if (call < responses.length) {
+      return responses[call++];
+    }
+    throw new Error("fetch called too many times");
+  };
+  (fn as any).preconnect = () => Promise.resolve();
+  return fn as unknown as typeof fetch;
+}
+
 describe("endpoints/assets", () => {
   let originalFetch: typeof globalThis.fetch;
   let client: BookamatClient;
@@ -28,14 +40,21 @@ describe("endpoints/assets", () => {
   });
 
   test("getAssets returns paginated assets", async () => {
-    globalThis.fetch = makeFetchMock({
+    const assetsPage = {
       ok: true,
       status: 200,
       headers: { get: () => "100" },
       json: async () => ({ results: [{ id: 1 }], next: null }),
-    });
+    };
+    const emptyPage = {
+      ok: false,
+      status: 404,
+      text: async () => "not found",
+      headers: { get: () => "0" },
+    };
+    globalThis.fetch = makeFetchMockSequence([assetsPage, emptyPage]);
     const result = await assets.getAssets.call(client, {});
-    expect(result.results[0].id).toBe(1);
+    expect(result[0].id).toBe(1);
   });
 
   test("createAsset posts and returns asset", async () => {
@@ -102,14 +121,21 @@ describe("endpoints/assets", () => {
   });
 
   test("listAssetAttachments returns attachments", async () => {
-    globalThis.fetch = makeFetchMock({
+    const attachmentsPage = {
       ok: true,
       status: 200,
       headers: { get: () => "100" },
       json: async () => ({ results: [{ id: 7 }], next: null }),
-    });
+    };
+    const emptyPage = {
+      ok: false,
+      status: 404,
+      text: async () => "not found",
+      headers: { get: () => "0" },
+    };
+    globalThis.fetch = makeFetchMockSequence([attachmentsPage, emptyPage]);
     const result = await assets.listAssetAttachments.call(client, { asset: 1 });
-    expect(result.results[0].id).toBe(7);
+    expect(result[0].id).toBe(7);
   });
 
   test("addAssetAttachment posts and returns attachment", async () => {

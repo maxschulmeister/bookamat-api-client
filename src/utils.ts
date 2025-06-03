@@ -78,14 +78,21 @@ export async function fetchAllPages<T>(
         typeof data.next === "string"
       ) {
         nextUrlFromData = data.next;
+      } else if (
+        typeof data === "object" &&
+        data !== null &&
+        "next" in data &&
+        data.next === null
+      ) {
+        // API indicates end of pagination
       }
 
       if (nextUrlFromData) {
         currentUrlToFetch = nextUrlFromData;
         currentPageNumberForFallback = 1; // Reset fallback page number as we are following 'next' link
-      } else if (results.length > 0 && !nextUrlFromData) {
-        // No 'next' link (or invalid 'next' link), but we got some results.
-        // Try incrementing page on the original base URL as a fallback.
+      } else if (results.length > 0 && !nextUrlFromData && !("next" in data)) {
+        // Only use fallback if the API response doesn't have a 'next' field at all
+        // If 'next' is null, it means we've reached the end of pagination
         currentPageNumberForFallback++;
         const nextFallbackUrlObj = new URL(baseFetchUrl.toString());
         nextFallbackUrlObj.searchParams.delete("page"); // Clean slate for page param
@@ -95,7 +102,7 @@ export async function fetchAllPages<T>(
         );
         currentUrlToFetch = nextFallbackUrlObj.toString();
       } else {
-        // No 'next' link and no results (or results.length was 0), so stop.
+        // No 'next' link and no results, or 'next' is explicitly null (end of pagination)
         currentUrlToFetch = null;
       }
     } catch (error: unknown) {

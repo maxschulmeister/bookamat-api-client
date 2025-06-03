@@ -2,6 +2,7 @@ import * as assetEndpoints from "./endpoints/assets";
 import * as bookingEndpoints from "./endpoints/bookings";
 import * as configurationEndpoints from "./endpoints/configuration";
 import * as settingsEndpoints from "./endpoints/settings";
+import * as userEndpoints from "./endpoints/user";
 import * as helperMethods from "./helpers";
 import type { ClientOptions } from "./types";
 
@@ -92,32 +93,80 @@ export class BookamatClient {
   }
 
   // --- Configuration Endpoints ---
-  public getConfiguration = configurationEndpoints.getConfiguration;
-  public getUser = configurationEndpoints.getUser;
+  public getPredefinedCostAccounts =
+    configurationEndpoints.getPredefinedCostAccounts;
+  public getPredefinedCostAccount =
+    configurationEndpoints.getPredefinedCostAccount;
+  public getPredefinedPurchaseTaxAccounts =
+    configurationEndpoints.getPredefinedPurchaseTaxAccounts;
+  public getPredefinedPurchaseTaxAccount =
+    configurationEndpoints.getPredefinedPurchaseTaxAccount;
+
+  // --- User Endpoints ---
+  public getUserAccounts = userEndpoints.getUserAccounts;
+  public getUserAccount = userEndpoints.getUserAccount;
+  public getUserSettings = userEndpoints.getUserSettings;
+  public getUserSettingsDetails = userEndpoints.getUserSettingsDetails;
+  public getUserExemptions = userEndpoints.getUserExemptions;
+  public getUserExemptionsDetails = userEndpoints.getUserExemptionsDetails;
 
   // --- Settings Endpoints ---
   public getBankAccounts = settingsEndpoints.getBankAccounts;
   public getBankAccountDetails = settingsEndpoints.getBankAccountDetails;
+  public createBankAccount = settingsEndpoints.createBankAccount;
+  public updateBankAccount = settingsEndpoints.updateBankAccount;
+  public replaceBankAccount = settingsEndpoints.replaceBankAccount;
+  public deleteBankAccount = settingsEndpoints.deleteBankAccount;
+
   public getCostAccounts = settingsEndpoints.getCostAccounts;
   public getCostAccountDetails = settingsEndpoints.getCostAccountDetails;
+  public activateCostAccount = settingsEndpoints.activateCostAccount;
+  public deleteCostAccount = settingsEndpoints.deleteCostAccount;
+
   public getPurchaseTaxAccounts = settingsEndpoints.getPurchaseTaxAccounts;
   public getPurchaseTaxAccountDetails =
     settingsEndpoints.getPurchaseTaxAccountDetails;
+  public activatePurchaseTaxAccount =
+    settingsEndpoints.activatePurchaseTaxAccount;
+  public deletePurchaseTaxAccount = settingsEndpoints.deletePurchaseTaxAccount;
+
   public getCostCentres = settingsEndpoints.getCostCentres;
   public getCostCentreDetails = settingsEndpoints.getCostCentreDetails;
+  public createCostCentre = settingsEndpoints.createCostCentre;
+  public updateCostCentre = settingsEndpoints.updateCostCentre;
+  public replaceCostCentre = settingsEndpoints.replaceCostCentre;
+  public deleteCostCentre = settingsEndpoints.deleteCostCentre;
+
   public getForeignBusinessBases = settingsEndpoints.getForeignBusinessBases;
   public getForeignBusinessBaseDetails =
     settingsEndpoints.getForeignBusinessBaseDetails;
+  public createForeignBusinessBase =
+    settingsEndpoints.createForeignBusinessBase;
+  public updateForeignBusinessBase =
+    settingsEndpoints.updateForeignBusinessBase;
+  public replaceForeignBusinessBase =
+    settingsEndpoints.replaceForeignBusinessBase;
+  public deleteForeignBusinessBase =
+    settingsEndpoints.deleteForeignBusinessBase;
+
   public getGlobalTags = settingsEndpoints.getGlobalTags;
   public getGlobalTagDetails = settingsEndpoints.getGlobalTagDetails;
+  public createGlobalTag = settingsEndpoints.createGlobalTag;
+  public updateGlobalTag = settingsEndpoints.updateGlobalTag;
+  public replaceGlobalTag = settingsEndpoints.replaceGlobalTag;
+  public deleteGlobalTag = settingsEndpoints.deleteGlobalTag;
 
   // --- Booking Endpoints ---
   public listBookings = bookingEndpoints.listBookings;
+  public listOpenBookings = bookingEndpoints.listOpenBookings;
+  public listDeletedBookings = bookingEndpoints.listDeletedBookings;
+  public listImportedBookings = bookingEndpoints.listImportedBookings;
   public getBookingDetails = bookingEndpoints.getBookingDetails;
   public createBooking = bookingEndpoints.createBooking;
   public updateBooking = bookingEndpoints.updateBooking;
   public partiallyUpdateBooking = bookingEndpoints.partiallyUpdateBooking;
   public deleteBooking = bookingEndpoints.deleteBooking;
+  public restoreBooking = bookingEndpoints.restoreBooking;
   public addBookingAttachment = bookingEndpoints.addBookingAttachment;
   public listBookingAttachments = bookingEndpoints.listBookingAttachments;
   public getBookingAttachmentDetails =

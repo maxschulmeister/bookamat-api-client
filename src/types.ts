@@ -495,3 +495,158 @@ export interface User {
   // Add other user properties as needed
   [key: string]: any; // Allow other properties
 }
+
+/**
+ * User Account Object - represents an active package/year for a user
+ * @see {@link https://www.bookamat.com/dokumentation/api/v1/user.html#accounts|Bookamat API Docs - User Accounts}
+ */
+export interface UserAccount {
+  id: number; // Unique identification number
+  country: string; // Country name (e.g., "Österreich")
+  year: number; // Year of the package
+  url: string; // Application URL without domain (e.g., "/at/2021/")
+}
+
+/**
+ * Parameters for filtering predefined cost accounts.
+ */
+export interface PredefinedCostAccountsParams {
+  group?: "1" | "2"; // 1 = Einnahmen (Income), 2 = Ausgaben (Expenses)
+  inventory?: boolean; // For asset goods
+  index_incometax?: string; // Income tax index numbers
+  ordering?: string; // Sorting (id, name, section)
+  page?: number; // Page number for pagination
+}
+
+/**
+ * Parameters for filtering predefined purchase tax accounts.
+ */
+export interface PredefinedPurchaseTaxAccountsParams {
+  group?: "1" | "2"; // 1 = Einnahmen (Income), 2 = Ausgaben (Expenses)
+  reverse_charge?: boolean; // Reverse charge
+  ic_report?: boolean; // Intrastat report
+  ic_delivery?: boolean; // Intrastat delivery
+  ic_service?: boolean; // Intrastat service
+  ioss_report?: boolean; // IOSS
+  eu_oss_report?: boolean; // EU-OSS
+  tax_values?: string; // Allowed tax rates
+  index_purchasetax?: string; // Purchase tax index numbers
+  ordering?: string; // Sorting (id, name, section)
+  page?: number; // Page number for pagination
+}
+
+/**
+ * Parameters for filtering user accounts.
+ */
+export interface UserAccountsParams {
+  year?: number; // Filter by year
+  page?: number; // Page number for pagination
+}
+
+/**
+ * User Settings Object - basic settings for a user account
+ */
+export interface UserSettings {
+  id: number; // Unique identification number
+  group: "1" | "2"; // 1 = Vorsteuerabzugsberechtigt, 2 = Kleinunternehmer
+  purchasetax: boolean; // VAT deduction eligibility
+  purchasetax_range: "1" | "2"; // 1 = Monthly, 2 = Quarterly VAT reporting
+  ic_report_range: "1" | "2"; // 1 = Monthly, 2 = Quarterly IC reporting
+  tax_percent: string; // Initial VAT percentage for bookings
+  deductibility_tax_percent: string; // Initial business VAT percentage
+  deductibility_income_percent: string; // Initial business amount percentage
+}
+
+/**
+ * User Exemptions Object - tax exemption amounts
+ */
+export interface UserExemptions {
+  id: number; // Unique identification number
+  exemption_9221: string; // Basic exemption (9221)
+  exemption_9227: string; // Investment-related profit exemption for assets (9227)
+  exemption_9229: string; // Investment-related profit exemption for securities (9229)
+  exemption_9276: string; // Investment exemption 10% (9276)
+  exemption_9277: string; // Eco-investment exemption 15% (9277)
+}
+
+/**
+ * Request body for creating a new bank account.
+ */
+export interface CreateBankAccountRequest {
+  name: string; // Required: Bank account name (max 40 characters)
+  position?: number; // Optional: Position (affects all other positions)
+  flag_balance?: boolean; // Optional: Balance list flag (default: false)
+  opening_balance?: string; // Optional: Opening balance (default: "0.00")
+}
+
+/**
+ * Request body for updating a bank account.
+ */
+export interface UpdateBankAccountRequest {
+  name?: string; // Bank account name (max 40 characters)
+  position?: number; // Position (affects all other positions)
+  flag_balance?: boolean; // Balance list flag
+  opening_balance?: string; // Opening balance
+}
+
+/**
+ * Request body for activating a cost account.
+ */
+export interface ActivateCostAccountRequest {
+  costaccount: number; // Required: ID of the predefined cost account to activate
+}
+
+/**
+ * Request body for activating a purchase tax account.
+ */
+export interface ActivatePurchaseTaxAccountRequest {
+  purchasetaxaccount: number; // Required: ID of the predefined purchase tax account to activate
+}
+
+/**
+ * Request body for creating a new cost centre.
+ */
+export interface CreateCostCentreRequest {
+  name: string; // Required: Cost centre name (max 40 characters)
+  position?: number; // Optional: Position (affects all other positions)
+}
+
+/**
+ * Request body for updating a cost centre.
+ */
+export interface UpdateCostCentreRequest {
+  name?: string; // Cost centre name (max 40 characters)
+  position?: number; // Position (affects all other positions)
+}
+
+/**
+ * Request body for creating a new foreign business base.
+ */
+export interface CreateForeignBusinessBaseRequest {
+  name: string; // Required: Foreign business base name (max 40 characters)
+  position?: number; // Optional: Position (affects all other positions)
+}
+
+/**
+ * Request body for updating a foreign business base.
+ */
+export interface UpdateForeignBusinessBaseRequest {
+  name?: string; // Foreign business base name (max 40 characters)
+  position?: number; // Position (affects all other positions)
+}
+
+/**
+ * Request body for creating a new tag.
+ */
+export interface CreateTagRequest {
+  name: string; // Required: Tag name (max 40 characters)
+  position?: number; // Optional: Position (affects all other positions)
+}
+
+/**
+ * Request body for updating a tag.
+ */
+export interface UpdateTagRequest {
+  name?: string; // Tag name (max 40 characters)
+  position?: number; // Position (affects all other positions)
+}

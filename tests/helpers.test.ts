@@ -91,77 +91,62 @@ describe("helpers", () => {
   });
 
   test("getAllAccounts returns all account types", async () => {
-    client.getCostAccounts = async () => ({
-      results: [
-        {
-          id: 1,
-          costaccount: 1,
-          name: "Cost",
-          section: "A",
-          group: "1",
-          inventory: false,
-          index_incometax: [],
-          deductibility_tax_percent: "0",
-          deductibility_amount_percent: "0",
-          description: "",
-          active: true,
-          purchasetaxaccounts: [],
-          counter_booked_bookings: 0,
-          counter_open_bookings: 0,
-          counter_deleted_bookings: 0,
-          counter_bookingtemplates: 0,
-        },
-      ],
-      count: 1,
-      next: null,
-      previous: null,
-    });
-    client.getBankAccounts = async () => ({
-      results: [
-        {
-          id: 2,
-          name: "Bank",
-          position: 1,
-          flag_balance: false,
-          opening_balance: "0",
-          counter_booked_bookings: 0,
-          counter_open_bookings: 0,
-          counter_deleted_bookings: 0,
-          counter_bookingtemplates: 0,
-        },
-      ],
-      count: 1,
-      next: null,
-      previous: null,
-    });
-    client.getPurchaseTaxAccounts = async () => ({
-      results: [
-        {
-          id: 3,
-          purchasetaxaccount: 1,
-          name: "Tax",
-          section: "A",
-          group: "1",
-          reverse_charge: false,
-          ic_report: false,
-          ic_delivery: false,
-          ic_service: false,
-          ioss_report: false,
-          eu_oss_report: false,
-          tax_values: [],
-          index_purchasetax: [],
-          description: "",
-          active: true,
-          counter_booked_bookings: 0,
-          counter_open_bookings: 0,
-          counter_deleted_bookings: 0,
-          counter_bookingtemplates: 0,
-        },
-      ],
-      count: 1,
-      next: null,
-      previous: null,
-    });
+    client.getCostAccounts = async () => [
+      {
+        id: 1,
+        costaccount: 1,
+        name: "Cost",
+        section: "A",
+        group: "1",
+        inventory: false,
+        index_incometax: [],
+        deductibility_tax_percent: "0",
+        deductibility_amount_percent: "0",
+        description: "",
+        active: true,
+        purchasetaxaccounts: [],
+        counter_booked_bookings: 0,
+        counter_open_bookings: 0,
+        counter_deleted_bookings: 0,
+        counter_bookingtemplates: 0,
+      },
+    ];
+    client.getBankAccounts = async () => [
+      {
+        id: 2,
+        name: "Bank",
+        position: 1,
+        flag_balance: false,
+        opening_balance: "0",
+        counter_booked_bookings: 0,
+        counter_open_bookings: 0,
+        counter_deleted_bookings: 0,
+        counter_bookingtemplates: 0,
+      },
+    ];
+    client.getPurchaseTaxAccounts = async () => [
+      {
+        id: 3,
+        purchasetaxaccount: 1,
+        name: "Tax",
+        section: "A",
+        group: "1",
+        reverse_charge: false,
+        ic_report: false,
+        ic_delivery: false,
+        ic_service: false,
+        ioss_report: false,
+        eu_oss_report: false,
+        tax_values: [],
+        index_purchasetax: [],
+        description: "",
+        active: true,
+        counter_booked_bookings: 0,
+        counter_open_bookings: 0,
+        counter_deleted_bookings: 0,
+        counter_bookingtemplates: 0,
+      },
+    ];
     const result = await getAllAccounts.call(client);
     expect(result.costaccounts[0].id).toBe(1);
     expect(result.bankaccounts[0].id).toBe(2);
@@ -172,18 +157,8 @@ describe("helpers", () => {
     client.getCostAccounts = async () => {
       throw new Error("HTTP 500");
     };
-    client.getBankAccounts = async () => ({
-      results: [],
-      count: 0,
-      next: null,
-      previous: null,
-    });
-    client.getPurchaseTaxAccounts = async () => ({
-      results: [],
-      count: 0,
-      next: null,
-      previous: null,
-    });
+    client.getBankAccounts = async () => [];
+    client.getPurchaseTaxAccounts = async () => [];
     await expect(getAllAccounts.call(client)).rejects.toThrow("HTTP 500");
   });
 });
