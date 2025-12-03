@@ -650,3 +650,176 @@ export interface UpdateTagRequest {
   name?: string; // Tag name (max 40 characters)
   position?: number; // Position (affects all other positions)
 }
+
+/**
+ * EU Country Codes
+ */
+export type EUCountry =
+  | "BE" // Belgium
+  | "BG" // Bulgaria
+  | "DK" // Denmark
+  | "DE" // Germany
+  | "EE" // Estonia
+  | "FI" // Finland
+  | "FR" // France
+  | "GR" // Greece
+  | "IE" // Ireland
+  | "IT" // Italy
+  | "HR" // Croatia
+  | "LV" // Latvia
+  | "LT" // Lithuania
+  | "LU" // Luxembourg
+  | "MT" // Malta
+  | "NL" // Netherlands
+  | "PL" // Poland
+  | "PT" // Portugal
+  | "RO" // Romania
+  | "SE" // Sweden
+  | "SK" // Slovakia
+  | "SI" // Slovenia
+  | "ES" // Spain
+  | "CZ" // Czech Republic
+  | "HU" // Hungary
+  | "GB" // United Kingdom (EU)
+  | "CY"; // Cyprus
+
+/**
+ * Third-party VAT Refund Country Codes
+ */
+export type VarRefundCountry =
+  | "IS" // Iceland
+  | "JP" // Japan
+  | "CA" // Canada
+  | "LI" // Liechtenstein
+  | "NO" // Norway
+  | "CH" // Switzerland
+  | "KR" // South Korea
+  | "TR" // Turkey
+  | "XU"; // United Kingdom
+
+/**
+ * Third-party Country Codes
+ */
+export type ThirdPartyCountry =
+  | "AF" // Afghanistan
+  | "AL" // Albania
+  | "DZ" // Algeria
+  | "AD" // Andorra
+  | "AO" // Angola
+  | "AR" // Argentina
+  | "AM" // Armenia
+  | "AZ" // Azerbaijan
+  | "AU" // Australia
+  | "BH" // Bahrain
+  | "BD" // Bangladesh
+  | "BO" // Bolivia
+  | "BA" // Bosnia and Herzegovina
+  | "BW" // Botswana
+  | "BR" // Brazil
+  | "KY" // Cayman Islands
+  | "CL" // Chile
+  | "CN" // China
+  | "CR" // Costa Rica
+  | "CI" // Côte d'Ivoire
+  | "CD" // Democratic Republic of Congo
+  | "DO" // Dominican Republic
+  | "EC" // Ecuador
+  | "SV" // El Salvador
+  | "ER" // Eritrea
+  | "FO" // Faroe Islands
+  | "GM" // Gambia
+  | "GE" // Georgia
+  | "GH" // Ghana
+  | "GD" // Grenada
+  | "GL" // Greenland
+  | "GT" // Guatemala
+  | "GN" // Guinea
+  | "HN" // Honduras
+  | "HK" // Hong Kong
+  | "IN" // India
+  | "ID" // Indonesia
+  | "IQ" // Iraq
+  | "IR" // Iran
+  | "IL" // Israel
+  | "JM" // Jamaica
+  | "YE" // Yemen
+  | "JO" // Jordan
+  | "KH" // Cambodia
+  | "CM" // Cameroon
+  | "KZ" // Kazakhstan
+  | "QA" // Qatar
+  | "KE" // Kenya
+  | "KG" // Kyrgyzstan
+  | "CO" // Colombia
+  | "CG" // Congo
+  | "CU" // Cuba
+  | "KW" // Kuwait
+  | "LA" // Laos
+  | "LB" // Lebanon
+  | "LR" // Liberia
+  | "LY" // Libya
+  | "MY" // Malaysia
+  | "ML" // Mali
+  | "MA" // Morocco
+  | "MK" // Macedonia
+  | "MX" // Mexico
+  | "MD" // Moldova
+  | "MC" // Monaco
+  | "MN" // Mongolia
+  | "ME" // Montenegro
+  | "MZ" // Mozambique
+  | "MM" // Myanmar
+  | "NA" // Namibia
+  | "NP" // Nepal
+  | "NZ" // New Zealand
+  | "NI" // Nicaragua
+  | "NE" // Niger
+  | "NG" // Nigeria
+  | "OM" // Oman
+  | "PK" // Pakistan
+  | "PA" // Panama
+  | "PY" // Paraguay
+  | "PE" // Peru
+  | "PH" // Philippines
+  | "PR" // Puerto Rico
+  | "RW" // Rwanda
+  | "RU" // Russia
+  | "ZM" // Zambia
+  | "SM" // San Marino
+  | "SA" // Saudi Arabia
+  | "SN" // Senegal
+  | "RS" // Serbia
+  | "ZW" // Zimbabwe
+  | "SG" // Singapore
+  | "SO" // Somalia
+  | "LK" // Sri Lanka
+  | "SD" // Sudan
+  | "SR" // Suriname
+  | "SY" // Syria
+  | "ZA" // South Africa
+  | "SS" // South Sudan
+  | "TJ" // Tajikistan
+  | "TW" // Taiwan
+  | "TZ" // Tanzania
+  | "TH" // Thailand
+  | "TG" // Togo
+  | "TD" // Chad
+  | "TN" // Tunisia
+  | "TM" // Turkmenistan
+  | "UG" // Uganda
+  | "UA" // Ukraine
+  | "UY" // Uruguay
+  | "UZ" // Uzbekistan
+  | "VE" // Venezuela
+  | "AE" // United Arab Emirates
+  | "US" // United States of America
+  | "VN" // Vietnam
+  | "BY" // Belarus
+  | "CF" // Central African Republic
+  | "EG" // Egypt
+  | "ET"; // Ethiopia
+
+/**
+ * All Country Codes (Union of all country code types)
+ */
+export type Country = EUCountry | VarRefundCountry | ThirdPartyCountry;
