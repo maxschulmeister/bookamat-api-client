@@ -209,7 +209,7 @@ export const ClientOptionsSchema = z.object({
   year: z.string().regex(/^\d{4}$/, "Year must be a 4-digit string"),
   username: z.string().min(1, "Username is required"),
   apiKey: z.string().min(1, "API Key is required"),
-  country: CountrySchema.optional(),
+  country: z.string().default("at").optional(),
   baseUrl: z.url().optional(),
 });
 
