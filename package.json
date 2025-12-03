@@ -53,6 +53,7 @@
     "access": "public"
   },
   "dependencies": {
-    "p-limit": "^6.2.0"
+    "p-limit": "^6.2.0",
+    "zod": "^4.1.13"
   }
 }
