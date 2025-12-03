@@ -1,6 +1,6 @@
 {
   "name": "bookamat-api-client",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A comprehensive TypeScript client for the Bookamat API, providing type-safe access to all Bookamat accounting features",
   "keywords": [
     "bookamat",
