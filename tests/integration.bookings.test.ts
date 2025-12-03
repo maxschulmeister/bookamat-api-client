@@ -424,14 +424,20 @@ describe("Bookings Integration Tests", () => {
   // --- Error Handling Tests ---
   it("should handle errors gracefully for all booking endpoints", async () => {
     await limit(async () => {
-      // Test with invalid IDs that should return 404 errors
+      // Test with invalid IDs
       const invalidId = 999999;
 
+      // These endpoints throw errors for invalid IDs
       await expect(client.getBookingDetails(invalidId)).rejects.toThrow();
       await expect(
         client.getBookingAttachmentDetails(invalidId)
       ).rejects.toThrow();
-      await expect(client.getBookingTags(invalidId, {})).rejects.toThrow();
+      
+      // This endpoint returns empty array for invalid booking ID
+      const tags = await client.getBookingTags(invalidId, {});
+      expect(tags).toEqual([]);
+      
+      // This endpoint throws error for invalid IDs
       await expect(
         client.getBookingTagDetails(invalidId, invalidId)
       ).rejects.toThrow();

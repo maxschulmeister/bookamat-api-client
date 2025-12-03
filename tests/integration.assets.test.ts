@@ -232,16 +232,20 @@ describe("Assets Integration Tests", () => {
   // --- Error Handling Tests ---
   it("should handle errors gracefully for all asset endpoints", async () => {
     await limit(async () => {
-      // Test with invalid IDs that should return 404 errors
+      // Test with invalid IDs
       const invalidId = 999999;
 
+      // These endpoints throw errors for invalid IDs
       await expect(client.getAssetDetails(invalidId)).rejects.toThrow();
       await expect(
         client.getAssetAttachmentDetails(invalidId)
       ).rejects.toThrow();
-      await expect(
-        client.listAssetAttachments({ asset: invalidId })
-      ).rejects.toThrow();
+
+      // This endpoint returns empty array for invalid asset ID
+      const attachments = await client.listAssetAttachments({
+        asset: invalidId,
+      });
+      expect(attachments).toEqual([]);
 
       console.log("Asset error handling tests completed successfully");
     });
